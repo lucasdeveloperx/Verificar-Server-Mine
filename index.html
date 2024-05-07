@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Servidor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background-color: #121212; /* Cor de fundo escura */
+            color: #fff; /* Cor do texto */
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #1e1e1e; /* Cor de fundo do container */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Sombra do container */
+            animation: fadeIn 0.5s ease-in-out; /* Animação de entrada */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 100px;
+            margin-right: 10px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1e1e1e; /* Cor de fundo do popup */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Sombra do popup */
+            z-index: 9999;
+            color: #fff; /* Cor do texto no popup */
+            animation: popupFadeIn 1s ease forwards; /* Animação de entrada */
+        }
+        @keyframes popupFadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        .popup.active {
+            display: block;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #ccc; /* Cor do botão de fechar */
+        }
+        .popup-content {
+            margin-bottom: 20px;
+        }
+        .instructions {
+            font-size: 14px;
+            text-align: center;
+        }
+        /* Estilos do formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: calc(100% - 120px); /* Ajustando a largura para deixar espaço para o botão */
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #666; /* Cor da borda do campo de texto */
+            background-color: #333; /* Cor de fundo do campo de texto */
+            color: #fff; /* Cor do texto no campo de texto */
+        }
+        input[type="submit"] {
+            width: 100px; /* Definindo a largura do botão */
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Estilos para a janela da API */
+        .api-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1e1e1e; /* Cor de fundo da janela da API */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Sombra da janela da API */
+            z-index: 9999;
+            color: #fff; /* Cor do texto na janela da API */
+            animation: popupFadeIn 1s ease forwards; /* Animação de entrada */
+        }
+        .api-popup.active {
+            display: block;
+        }
+        a {
+            color: #4caf50; /* Cor dos links */
+            text-decoration: none; /* Remove o sublinhado padrão dos links */
+        }
+        a:hover {
+            text-decoration: underline; /* Adiciona sublinhado ao passar o mouse sobre o link */
+        }
+        /* Rodapé */
+        .footer {
+            background-color: #121212; /* Cor de fundo escura */
+            color: #fff; /* Cor do texto */
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+        }
+        .footer a {
+            color: #00FF00; /* Cor dos links (verde) */
+            text-decoration: none; /* Remove o sublinhado padrão dos links */
+        }
+        .footer a:hover {
+            text-decoration: underline; /* Adiciona sublinhado ao passar o mouse sobre o link */
+        }
+        .footer .github-link {
+            font-weight: bold;
+        }
+        .footer .bar {
+            background-color: #00FF00; /* Cor da faixa (verde) */
+            height: 2px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img class="logo" src="/assets/logo.png" alt="Logo">
+            <h1>Verificar Status do Servidor Minecraft</h1>
+        </div>
+        <form id="serverForm" method="post">
+            <div class="form-group">
+                <label for="server">Digite o endereço do servidor:</label>
+                <input type="text" id="server" name="server" required>
+            </div>
+            <input type="submit" value="Verificar">
+        </form>
+    </div>
+    <div class="popup" id="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <div class="popup-content" id="popupContent">
+            <!-- Aqui serão inseridas as informações do servidor -->
+        </div>
+        <div class="instructions">
+            <p>Clique no botão "Fechar" para verificar outro servidor.</p>
+        </div>
+    </div>
+    <!-- Janela para exibir informações sobre como usar a API -->
+    <div class="api-popup" id="apiPopup">
+        <span class="close-btn" onclick="closeApiPopup()">&times;</span>
+        <h2>Como usar a API</h2>
+        <p>Para verificar o status de um servidor Minecraft, digite o endereço do servidor no campo acima e clique em "Verificar". As informações serão exibidas em uma janela popup.</p>
+        <p>Para mais informações sobre como usar a API, consulte a documentação em <a href="https://api.mcsrvstat.us/" target="_blank">https://api.mcsrvstat.us/</a>.</p>
+    </div>
+    <!-- Rodapé -->
+    <div class="footer">
+        Desenvolvido por <a href="https://github.com/lucasdeveloperx" class="github-link" target="_blank">LkDeveloper</a>
+        <div class="bar"></div> <!-- Faixa -->
+    </div>
+
+    <script>
+        document.getElementById("serverForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita o envio do formulário
+            var serverAddress = document.getElementById("server").value;
+            var popup = document.getElementById("popup");
+            var popupContent = document.getElementById("popupContent");
+
+            // Faz a requisição para a API
+            fetch("https://api.mcsrvstat.us/3/" + serverAddress)
+            .then(response => response.json())
+            .then(data => {
+                if (data.online) {
+                    // Se o servidor estiver online, preenche o popup com as informações
+                    var serverStatus = "Online";
+                    var playersOnline = data.players.online;
+                    var motd = data.motd.clean.join("<br>");
+                    popupContent.innerHTML = "<strong>Status:</strong> " + serverStatus + "<br>" +
+                                            "<strong>Jogadores Online:</strong> " + playersOnline + "<br>" +
+                                            "<strong>MOTD:</strong> " + motd;
+                } else {
+                    // Se o servidor estiver offline, exibe mensagem de offline
+                    popupContent.innerHTML = "<strong>Status:</strong> Offline";
+                }
+                // Exibe o popup
+                popup.classList.add("active");
+            })
+            .catch(error => console.error('Erro ao carregar os dados do servidor:', error));
+        });
+
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.classList.remove("active");
+        }
+
+        // Função para abrir a janela da API
+        function openApiPopup() {
+            var apiPopup = document.getElementById("apiPopup");
+            apiPopup.classList.add("active");
+        }
+
+        // Função para fechar a janela da API
+        function closeApiPopup() {
+            var apiPopup = document.getElementById("apiPopup");
+            apiPopup.classList.remove("active");
+        }
+    </script>
+</body>
+</html>
