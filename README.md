@@ -2,7 +2,7 @@
 
 Este é um projeto simples para verificar o status de um servidor Minecraft utilizando uma API externa. Ele consiste em uma página web onde você pode inserir o endereço do servidor Minecraft e verificar se está online ou offline, quantos jogadores estão conectados e a descrição do servidor.
 
-![Logo]([INSIRA_O_LINK_DA_IMAGEM_AQUI](https://media.discordapp.net/attachments/1237168288685887572/1237202123465428992/image.png?ex=663ac9c4&is=66397844&hm=58834d4d44e26498adeb2dd1e2e2ee96cc3958d3a5c8728139a1c54d060fea1d&=&format=webp&quality=lossless&width=915&height=436))
+![Logo](https://media.discordapp.net/attachments/1237168288685887572/1237202123465428992/image.png?ex=663ac9c4&is=66397844&hm=58834d4d44e26498adeb2dd1e2e2ee96cc3958d3a5c8728139a1c54d060fea1d&=&format=webp&quality=lossless&width=915&height=436)
 
 ## Tecnologias Utilizadas
 
